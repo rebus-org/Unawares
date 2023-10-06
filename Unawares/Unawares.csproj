@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<OutputType>library</OutputType>
+		<IsPackable>true</IsPackable>
 	</PropertyGroup>
 
 </Project>
