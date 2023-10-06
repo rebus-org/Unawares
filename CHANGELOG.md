@@ -5,3 +5,6 @@
 
 ## 0.0.2
 * Include XML docs
+
+## 0.0.3
+* Remove warnings

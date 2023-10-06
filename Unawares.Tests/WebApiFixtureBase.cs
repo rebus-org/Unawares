@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
 using Testy;
@@ -38,9 +37,7 @@ public abstract class WebApiFixtureBase : FixtureBase
 
         if (response.IsSuccessStatusCode) return;
 
-        throw new HttpRequestException(await GetResponseString(), null, response.StatusCode);
-
-        async Task<string> GetResponseString() => await response.Content.ReadAsStringAsync();
+        throw new HttpRequestException(await response.Content.ReadAsStringAsync(), null, response.StatusCode);
     }
 
     protected abstract void ConfigureWebHostDefaults(IWebHostBuilder builder);

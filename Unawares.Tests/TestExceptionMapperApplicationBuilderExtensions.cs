@@ -44,15 +44,9 @@ public class TestExceptionMapperApplicationBuilderExtensions : WebApiFixtureBase
 
                     switch (what)
                     {
-                        case nameof(Exception1):
-                            throw new Exception1();
-                            break;
-                        case nameof(Exception2):
-                            throw new Exception2();
-                            break;
-                        case nameof(Exception3):
-                            throw new Exception3(request.Query["message"].FirstOrDefault() ?? "???");
-                            break;
+                        case nameof(Exception1): throw new Exception1();
+                        case nameof(Exception2): throw new Exception2();
+                        case nameof(Exception3): throw new Exception3(request.Query["message"].FirstOrDefault() ?? "???");
                         default:
                             response.StatusCode = (int)HttpStatusCode.BadRequest;
                             break;
