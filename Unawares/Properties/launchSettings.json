@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Unawares": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:65394;http://localhost:65395"
+    }
+  }
+}
