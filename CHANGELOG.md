@@ -8,3 +8,6 @@
 
 ## 0.0.3
 * Remove warnings
+
+## 0.0.4
+* Add Nuggie metadata
