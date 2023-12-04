@@ -15,22 +15,22 @@ public class ExceptionMapper
     /// <summary>
     /// Maps <typeparamref name="TException"/> to <paramref name="status"/>
     /// </summary>
-    public ExceptionMapper Map<TException>(HttpStatusCode status) where TException : Exception
+    public ExceptionMapper Map<TException>(HttpStatusCode status, bool logExceptionDetails = true) where TException : Exception
     {
-        _mappings.Add(new ExceptionMapping(typeof(TException), status, JustDoIt));
+        _mappings.Add(new ExceptionMapping(typeof(TException), status, JustDoIt, logExceptionDetails));
         return this;
     }
 
     /// <summary>
     /// Maps <typeparamref name="TException"/> to <paramref name="status"/> if the exception satisties the given <paramref name="criteria"/>
     /// </summary>
-    public ExceptionMapper Map<TException>(HttpStatusCode status, Func<TException, bool> criteria) where TException : Exception
+    public ExceptionMapper Map<TException>(HttpStatusCode status, Func<TException, bool> criteria, bool logExceptionDetails = true) where TException : Exception
     {
-        _mappings.Add(new ExceptionMapping(typeof(TException), status, exception => exception is TException specificException && criteria(specificException)));
+        _mappings.Add(new ExceptionMapping(typeof(TException), status, exception => exception is TException specificException && criteria(specificException), logExceptionDetails));
         return this;
     }
 
-    internal record ExceptionMapping(Type ExceptionType, HttpStatusCode StatusCode, Func<Exception, bool> Criteria)
+    internal record ExceptionMapping(Type ExceptionType, HttpStatusCode StatusCode, Func<Exception, bool> Criteria, bool LogExceptionDetails)
     {
         public bool MustHandle(Exception exception) => ExceptionType.IsInstanceOfType(exception) && Criteria(exception);
     }

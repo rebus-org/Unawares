@@ -63,8 +63,21 @@ public static class ExceptionMapperApplicationBuilderExtensions
 
                 await response.WriteAsJsonAsync(new ErrorResponse(statusCodeNumber, exception.Message));
 
-                GetLogger()?.LogInformation("Mapped {method} {url} {exceptionType} to status {status} ({statusName}): {text}",
-                    exception.GetType().Name, context.Request.Method, context.Request.GetDisplayUrl(), statusCodeNumber, statusCodeEnum, exception.Message);
+                if (mapper.LogExceptionDetails)
+                {
+                    GetLogger()?.LogInformation(
+                        exception,
+                        "Mapped {method} {url} {exceptionType} to status {status} ({statusName})",
+                        exception.GetType().Name, context.Request.Method, context.Request.GetDisplayUrl(),
+                        statusCodeNumber, statusCodeEnum);
+                }
+                else
+                {
+                    GetLogger()?.LogInformation(
+                        "Mapped {method} {url} {exceptionType} to status {status} ({statusName}): {text}",
+                        exception.GetType().Name, context.Request.Method, context.Request.GetDisplayUrl(),
+                        statusCodeNumber, statusCodeEnum, exception.Message);
+                }
 
                 ILogger GetLogger()
                 {

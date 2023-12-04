@@ -11,3 +11,6 @@
 
 ## 0.0.4
 * Add Nuggie metadata
+
+## 0.0.5
+* Include exception in logging by default
