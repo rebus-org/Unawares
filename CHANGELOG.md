@@ -14,3 +14,6 @@
 
 ## 0.0.5
 * Include exception in logging by default
+
+## 0.0.6
+* Target .NET 6, .NET 7, and .NET 8
