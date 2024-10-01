@@ -17,3 +17,6 @@
 
 ## 0.0.6
 * Target .NET 6, .NET 7, and .NET 8
+
+## 0.0.7
+* Just target .NET 8 and add landing page configuration thing

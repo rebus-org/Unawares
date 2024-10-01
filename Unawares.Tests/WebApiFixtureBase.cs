@@ -32,10 +32,20 @@ public abstract class WebApiFixtureBase : FixtureBase
     protected async Task Post(string route)
     {
         using var request = new HttpRequestMessage(HttpMethod.Post, route);
-
         using var response = await _client.SendAsync(request);
-
         if (response.IsSuccessStatusCode) return;
+
+        throw new HttpRequestException(await response.Content.ReadAsStringAsync(), null, response.StatusCode);
+    }
+
+    protected async Task<string> Get(string route)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Get, route);
+        using var response = await _client.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadAsStringAsync();
+        }
 
         throw new HttpRequestException(await response.Content.ReadAsStringAsync(), null, response.StatusCode);
     }

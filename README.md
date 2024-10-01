@@ -32,3 +32,14 @@ app.UseExceptionMapper(...);
 app.UseEndpoints(...);
 
 ```
+
+
+## Landing Page redirector
+
+It's just
+
+```csharp
+app.UseLandingPage("swagger");
+```
+
+to redirect (HTTP 302) to e.g. the swagger UI.
