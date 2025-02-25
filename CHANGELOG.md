@@ -20,3 +20,6 @@
 
 ## 0.0.7
 * Just target .NET 8 and add landing page configuration thing
+
+## 0.0.8
+* Avoid NULL checks by using `NullLogger` when there is none

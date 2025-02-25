@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Unawares.Internals;
 
 namespace Unawares;
@@ -40,9 +41,11 @@ public static class ExceptionMapperApplicationBuilderExtensions
                 var statusCodeEnum = mapper.StatusCode;
                 var statusCodeNumber = (int)statusCodeEnum;
 
+                var logger = GetLogger();
+
                 if (response.HasStarted)
                 {
-                    GetLogger()?.LogWarning("Could not map {method} {url} {exceptionType} to status {status} ({statusName}) (with text {text}), because the response headers were already sent!",
+                    logger.LogWarning("Could not map {method} {url} {exceptionType} to status {status} ({statusName}) (with text {text}), because the response headers were already sent!",
                         exception.GetType().Name, context.Request.Method, context.Request.GetDisplayUrl(),
                         statusCodeNumber, statusCodeEnum, exception.Message);
 
@@ -62,7 +65,7 @@ public static class ExceptionMapperApplicationBuilderExtensions
 
                 if (mapper.LogExceptionDetails)
                 {
-                    GetLogger()?.LogInformation(
+                    logger.LogInformation(
                         exception,
                         "Mapped {method} {url} {exceptionType} to status {status} ({statusName})",
                         exception.GetType().Name, context.Request.Method, context.Request.GetDisplayUrl(),
@@ -70,7 +73,7 @@ public static class ExceptionMapperApplicationBuilderExtensions
                 }
                 else
                 {
-                    GetLogger()?.LogInformation(
+                    logger.LogInformation(
                         "Mapped {method} {url} {exceptionType} to status {status} ({statusName}): {text}",
                         exception.GetType().Name, context.Request.Method, context.Request.GetDisplayUrl(),
                         statusCodeNumber, statusCodeEnum, exception.Message);
@@ -78,9 +81,9 @@ public static class ExceptionMapperApplicationBuilderExtensions
 
                 ILogger GetLogger()
                 {
-                    var LoggerFactory = context.RequestServices.GetService(typeof(ILoggerFactory)) as ILoggerFactory;
-                    var logger = LoggerFactory?.CreateLogger(typeof(ExceptionMapperApplicationBuilderExtensions));
-                    return logger;
+                    var loggerFactory = context.RequestServices.GetService(typeof(ILoggerFactory)) as ILoggerFactory ?? new NullLoggerFactory();
+                    
+                    return loggerFactory.CreateLogger(typeof(ExceptionMapperApplicationBuilderExtensions));
                 }
             }
         });
